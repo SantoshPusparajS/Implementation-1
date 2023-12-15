@@ -1,0 +1,35 @@
+---
+- name: Install and configure LAMP stack
+  hosts: localhost
+  become: true
+  tasks:
+    - name: Install Apache
+      apt:
+        name: apache2
+        state: present
+
+    - name: Install MySQL
+      apt:
+        name: mysql-server
+        state: present
+      vars:
+        mysql_root_password: "San@9486849031"
+
+    - name: Install PHP and required modules
+      apt:
+        name: "{{ item }}"
+        state: present
+      loop:
+        - php
+        - libapache2-mod-php
+        - php-mysql
+
+    # - name: Enable Apache mod_rewrite
+    #   apache2_module:
+    #     name: rewrite
+    #     state: present
+
+    - name: Restart Apache
+      service:
+        name: apache2
+        state: restarted
