@@ -1,6 +1,6 @@
 variable "resource_group_name" {
   description = "Resource group name"
-  default     = "storage-account"
+  default     = "ansible-rg"
 }
 
 variable "resource_group_location" {
