@@ -1,5 +1,4 @@
 resource "null_resource" "configurations" {
-  #   for_each = toset(resource.azurerm_linux_virtual_machine.ansible-demo[*].public_ip_address)
   count = length(resource.azurerm_linux_virtual_machine.ansible-demo[*].public_ip_address)
   connection {
     type        = "ssh"
@@ -19,13 +18,6 @@ resource "null_resource" "configurations" {
       "sudo chmod -R 777 scripts",
       "cd /home/azureuser/.ssh",
       "rm -rf terraform-*"
-    ]
-  }
-
-  provisioner "remote-exec" {
-    inline = [
-      "cd /home/azureuser",
-      "ls -lrt"
     ]
   }
 
