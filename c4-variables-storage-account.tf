@@ -1,6 +1,6 @@
 variable "storage_account_name" {
   description = "Storage Account name in which terraform state file needs to store"
-  default     = "implementation2109"
+  default     = "implementation210996"
 }
 
 variable "storage_container_name" {

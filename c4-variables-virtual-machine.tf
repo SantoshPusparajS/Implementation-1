@@ -1,6 +1,6 @@
 variable "resource_group_name" {
   description = "Resource group name"
-  default     = "ansible-rg"
+  default     = "ansible-rg-resources"
 }
 
 variable "resource_group_location" {

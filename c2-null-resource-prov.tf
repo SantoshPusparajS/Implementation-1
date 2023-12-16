@@ -42,4 +42,8 @@ resource "null_resource" "configurations" {
     ]
   }
 
+  provisioner "local-exec" {
+    command = "echo http://${resource.azurerm_linux_virtual_machine.ansible-demo[count.index].public_ip_address}/phpinfo.php >> application.txt"
+  }
+
 }

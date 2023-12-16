@@ -1,5 +1,5 @@
 resource "azurerm_linux_virtual_machine" "ansible-demo" {
-  depends_on            = [azurerm_network_interface.ansible_network_interf]
+  depends_on            = [azurerm_network_interface.ansible_network_interf, azurerm_storage_account.vm_storage_account]
   count                 = var.instance_size
   name                  = "ansible-demo-${count.index}"
   resource_group_name   = azurerm_resource_group.ansible_rg.name
@@ -9,6 +9,10 @@ resource "azurerm_linux_virtual_machine" "ansible-demo" {
   admin_ssh_key {
     username   = "azureuser"
     public_key = file("./ssh-key/terraform-azure.pub")
+  }
+
+  boot_diagnostics {
+    storage_account_uri = azurerm_storage_account.vm_storage_account.primary_blob_endpoint
   }
 
   os_disk {

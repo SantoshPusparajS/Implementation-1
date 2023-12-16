@@ -7,9 +7,9 @@ terraform {
     }
   }
   backend "azurerm" {
-    resource_group_name  = var.resource_group_name
-    storage_account_name = var.storage_account_name
-    container_name       = var.storage_container_name
+    resource_group_name  = "ansible-rg"
+    storage_account_name = "implementation2109"
+    container_name       = "terraform"
     key                  = "terraform.tfstate"
   }
 }
