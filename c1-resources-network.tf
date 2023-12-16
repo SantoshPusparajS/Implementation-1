@@ -1,8 +1,8 @@
 resource "azurerm_virtual_network" "virtual_network_1" {
   depends_on          = [azurerm_resource_group.ansible_rg]
-  name                = "ansible-vnet"
+  name                = var.storage_container_name
   resource_group_name = azurerm_resource_group.ansible_rg.name
-  address_space       = ["10.0.0.0/16"]
+  address_space       = var.address_space
   location            = azurerm_resource_group.ansible_rg.location
 
   tags = {
@@ -12,15 +12,15 @@ resource "azurerm_virtual_network" "virtual_network_1" {
 }
 
 resource "azurerm_subnet" "subnet-01" {
-  name                 = "ansible-subnet-01"
+  name                 = var.subnet_name
   resource_group_name  = azurerm_resource_group.ansible_rg.name
   virtual_network_name = azurerm_virtual_network.virtual_network_1.name
-  address_prefixes     = ["10.0.1.0/24"]
+  address_prefixes     = var.subnet_address
 }
 
 resource "azurerm_network_interface" "ansible_network_interf" {
   depends_on          = [azurerm_public_ip.public_ip]
-  count               = 3
+  count               = var.count_nic
   name                = "ansible-nic-${count.index}"
   location            = azurerm_resource_group.ansible_rg.location
   resource_group_name = azurerm_resource_group.ansible_rg.name
@@ -35,7 +35,7 @@ resource "azurerm_network_interface" "ansible_network_interf" {
 
 
 resource "azurerm_public_ip" "public_ip" {
-  count               = 3
+  count               = var.count_nic
   name                = "public-ip-${count.index}"
   resource_group_name = azurerm_resource_group.ansible_rg.name
   location            = azurerm_resource_group.ansible_rg.location

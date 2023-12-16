@@ -7,3 +7,8 @@ variable "storage_container_name" {
   description = "Container name for the storage account"
   default     = "terraform"
 }
+
+variable "storage_account_type" {
+  description = "Storage account type"
+  default     = "Standard_LRS"
+}

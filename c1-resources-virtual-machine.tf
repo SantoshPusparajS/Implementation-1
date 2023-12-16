@@ -1,11 +1,11 @@
 resource "azurerm_linux_virtual_machine" "ansible-demo" {
   depends_on            = [azurerm_network_interface.ansible_network_interf]
-  count                 = 3
+  count                 = var.instance_size
   name                  = "ansible-demo-${count.index}"
   resource_group_name   = azurerm_resource_group.ansible_rg.name
   location              = azurerm_resource_group.ansible_rg.location
   network_interface_ids = [azurerm_network_interface.ansible_network_interf[count.index].id]
-  size                  = "Standard_DS1_v2"
+  size                  = var.virtual_machine_size
   admin_ssh_key {
     username   = "azureuser"
     public_key = file("./ssh-key/terraform-azure.pub")
@@ -13,13 +13,13 @@ resource "azurerm_linux_virtual_machine" "ansible-demo" {
 
   os_disk {
     caching              = "ReadWrite"
-    storage_account_type = "Standard_LRS"
+    storage_account_type = var.storage_account_type
   }
   admin_username = "azureuser"
   source_image_reference {
-    publisher = "Canonical"
-    offer     = "0001-com-ubuntu-server-jammy"
-    sku       = "22_04-lts"
+    publisher = var.source_image_publisher
+    offer     = var.source_image_offer
+    sku       = var.source_image_sku
     version   = "latest"
   }
 }
