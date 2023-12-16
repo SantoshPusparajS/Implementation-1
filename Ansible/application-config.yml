@@ -24,11 +24,6 @@
         - libapache2-mod-php
         - php-mysql
 
-    # - name: Enable Apache mod_rewrite
-    #   apache2_module:
-    #     name: rewrite
-    #     state: present
-
     - name: Restart Apache
       service:
         name: apache2
