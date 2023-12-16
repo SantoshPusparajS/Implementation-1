@@ -1,6 +1,6 @@
 resource "azurerm_virtual_network" "virtual_network_1" {
   depends_on          = [azurerm_resource_group.ansible_rg]
-  name                = var.storage_container_name
+  name                = var.vnet_name
   resource_group_name = azurerm_resource_group.ansible_rg.name
   address_space       = var.address_space
   location            = azurerm_resource_group.ansible_rg.location

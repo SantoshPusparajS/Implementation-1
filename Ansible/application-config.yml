@@ -28,3 +28,7 @@
       service:
         name: apache2
         state: restarted
+
+    - name: Deploy a sample php application
+      shell:
+        cmd: echo '<?php phpinfo(); ?>' | sudo tee /var/www/html/phpinfo.php

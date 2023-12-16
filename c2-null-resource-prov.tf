@@ -32,13 +32,16 @@ resource "null_resource" "configurations" {
     when        = create
   }
 
+  provisioner "local-exec" {
+    command = "del E:\\Terraform\\Implementation-1\\Terraform\\application.txt"
+  }
+
   provisioner "remote-exec" {
     inline = [
       "cd /home/azureuser/scripts",
       "sudo sh scripts.sh",
       "sleep 10",
       "ansible-playbook application-config.yml",
-      "echo '<?php phpinfo(); ?>' | sudo tee /var/www/html/phpinfo.php"
     ]
   }
 

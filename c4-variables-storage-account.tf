@@ -3,10 +3,10 @@ variable "storage_account_name" {
   default     = "implementation210996"
 }
 
-variable "storage_container_name" {
-  description = "Container name for the storage account"
-  default     = "terraform"
-}
+# variable "storage_container_name" {
+#   description = "Container name for the storage account"
+#   default     = "terraform"
+# }
 
 variable "storage_account_type" {
   description = "Storage account type"
