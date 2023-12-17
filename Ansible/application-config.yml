@@ -7,6 +7,8 @@
       apt:
         name: apache2
         state: present
+      notify:
+        - restart_httpd
 
     - name: Install MySQL
       apt:
@@ -23,12 +25,15 @@
         - php
         - libapache2-mod-php
         - php-mysql
+      notify:
+        - deploy_php_application
 
-    - name: Restart Apache
+  handlers:
+    - name: restart_httpd
       service:
         name: apache2
         state: restarted
 
-    - name: Deploy a sample php application
+    - name: deploy_php_application
       shell:
         cmd: echo '<?php phpinfo(); ?>' | sudo tee /var/www/html/phpinfo.php

@@ -1,12 +1,12 @@
 resource "null_resource" "configurations" {
   count = length(resource.azurerm_linux_virtual_machine.ansible-demo[*].public_ip_address)
+  #connection block to do actions on the remote host
   connection {
     type        = "ssh"
     user        = "azureuser"
     private_key = file("./ssh-key/terraform-azure.pem")
     host        = resource.azurerm_linux_virtual_machine.ansible-demo[count.index].public_ip_address
   }
-
   triggers = {
     always_run = timestamp()
   }
