@@ -22,3 +22,8 @@ variable "count_nic" {
   description = "Number of public ip address"
   default     = 3
 }
+
+variable "subnets" {
+  type    = list(string)
+  default = ["subnet1", "subnet2", "subnet3"]
+}

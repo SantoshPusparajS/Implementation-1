@@ -12,10 +12,11 @@ resource "azurerm_virtual_network" "virtual_network_1" {
 }
 
 resource "azurerm_subnet" "subnet-01" {
-  name                 = var.subnet_name
+  count                = length(var.subnets)
+  name                 = "var.subnet_name-${count.index}"
   resource_group_name  = azurerm_resource_group.ansible_rg.name
   virtual_network_name = azurerm_virtual_network.virtual_network_1.name
-  address_prefixes     = var.subnet_address
+  address_prefixes     = ["10.0.${count.index + 1}.0/24"]
 }
 
 resource "azurerm_network_interface" "ansible_network_interf" {
@@ -27,7 +28,7 @@ resource "azurerm_network_interface" "ansible_network_interf" {
 
   ip_configuration {
     name                          = "public-ip"
-    subnet_id                     = azurerm_subnet.subnet-01.id
+    subnet_id                     = azurerm_subnet.subnet-01[count.index].id
     private_ip_address_allocation = "Dynamic"
     public_ip_address_id          = azurerm_public_ip.public_ip[count.index].id
   }
