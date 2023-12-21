@@ -6,3 +6,5 @@ ls -lrt
 cat terraform-azure.pub >> authorized_keys
 chmod 600 authorized_keys
 chmod 400 terraform-azure.pem
+sudo chmod -R 777 /home/azureuser/scripts
+sudo rm -rf *_inventory

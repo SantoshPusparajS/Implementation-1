@@ -1,0 +1,36 @@
+---
+- name: Install and configure Apache and PHP application
+  become: yes
+  become_user: root
+  hosts: all
+  tasks:
+    - name: Update the packages
+      apt:
+        update_cache: yes
+    - name: Install Apache
+      apt:
+        name: apache2
+        state: present
+      notify:
+        - restart_httpd_debian
+      ignore_errors: yes
+    - name: Install PHP and required modules
+      apt:
+        name: "{{ item }}"
+        state: present
+      loop:
+        - php
+        - libapache2-mod-php
+        - php-mysql
+      notify:
+        - deploy_php_application
+      ignore_errors: yes
+  handlers:
+    - name: restart_httpd_debian
+      service:
+        name: apache2
+        state: restarted
+
+    - name: deploy_php_application
+      shell:
+        cmd: echo '<?php phpinfo(); ?>' | sudo tee /var/www/html/phpinfo.php

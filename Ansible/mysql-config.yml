@@ -1,0 +1,16 @@
+---
+- name: Install and configure MySQL
+  become: yes
+  become_user: root
+  hosts: all
+  tasks:
+    - name: Update the packages
+      apt:
+        update_cache: yes
+    - name: Install MySQL
+      apt:
+        name: mysql-server
+        state: present
+      vars:
+        mysql_root_password: "San@9486849031"
+      ignore_errors: yes
