@@ -3,33 +3,49 @@
   hosts: localhost
   become: true
   tasks:
-    - name: Install Apache
-      apt:
-        name: apache2
-        state: present
-      notify:
-        - restart_httpd
+    - name: Installing LAMP application on Debian based systems
+      block:
+        - name: Install Apache
+          apt:
+            name: apache2
+            state: present
+          notify:
+            - restart_httpd_debian
+          tags:
+            - webserver
+            - debian
 
-    - name: Install MySQL
-      apt:
-        name: mysql-server
-        state: present
-      vars:
-        mysql_root_password: "San@9486849031"
+        - name: Install MySQL
+          apt:
+            name: mysql-server
+            state: present
+          vars:
+            mysql_root_password: "San@9486849031"
+          tags:
+            - database
+            - debian
 
-    - name: Install PHP and required modules
-      apt:
-        name: "{{ item }}"
-        state: present
-      loop:
-        - php
-        - libapache2-mod-php
-        - php-mysql
-      notify:
-        - deploy_php_application
+        - name: Install PHP and required modules
+          apt:
+            name: "{{ item }}"
+            state: present
+          loop:
+            - php
+            - libapache2-mod-php
+            - php-mysql
+          notify:
+            - deploy_php_application
+          tags:
+            - database
+            - debian
+      rescue:
+        - name: Caught error
+          debug:
+            msg: "Error happened in debian block"
+      when: ansible_os_family == "Debian"
 
   handlers:
-    - name: restart_httpd
+    - name: restart_httpd_debian
       service:
         name: apache2
         state: restarted
